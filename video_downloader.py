@@ -24,3 +24,4 @@ if __name__ == '__main__':
     video_downloader = VideoDownloader()
     youtube_urls = video_downloader.generate_query()
     video_downloader.write_urls_to_file("youtube_transcripts/random_transcripts.txt", youtube_urls)
+
