@@ -1,4 +1,5 @@
 import csv
+from bs4 import BeautifulSoup
 
 import nltk
 import os
@@ -34,6 +35,7 @@ class Parser:
                             header_lang = next(f)
                             if header_lang.strip() != "Language: en":
                                 continue
+
                             filtered = filter(lambda x: filter_s(x), f)
                             filtered = ' '.join(map(lambda x: x.strip().lower(), filtered))
 
@@ -75,8 +77,9 @@ class Parser:
 
 if __name__ == '__main__':
     parser = Parser()
-    filtered = parser.clean_files("youtube_transcripts")
-    # filtered = parser.clean_files("Uploads from Nike")
-    parser.run(filtered, "configs/pos/groups.csv", "configs/pos/sorted_words_random_videos.csv")
-    # parser.run(filtered, "configs/pos/groups.csv", "configs/pos/sorted_words_ads_videos.csv")
+    # filtered = parser.clean_files("youtube_transcripts")
+    filtered = parser.clean_files("youtube_transcripts/test")
+    print filtered
+    # parser.run(filtered, "configs/pos/groups.csv", "configs/pos/sorted_words_random_videos.csv")
+    parser.run(filtered, "configs/pos/groups.csv", "configs/pos/sorted_words_ads_videos.csv")
     # parser.read_pos_group("configs/pos/groups.csv")

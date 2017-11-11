@@ -29,15 +29,30 @@ class Taxonomy:
         pos_words_ads = defaultdict(dict)
         for pos1, words1 in pos_words_ads_old.iteritems():
             words2 = pos_words_rand[pos1]
-            pos_words_ads[pos1] = {s: words_count[s] for s in words1 - words2}
-        sorted_pow_count = dict(map(lambda (x, y):
+            print(len(words1), len(words2))
+            pos_words_ads[pos1] = {s: int(words_count[s]) for s in words1 - words2}
+            print(len(pos_words_ads[pos1]))
+            print "-"*10
+
+        sorted_pos_count = dict(map(lambda (x, y):
                            (x, sorted(y.items(), key=operator.itemgetter(1), reverse=True)),
                            pos_words_ads.iteritems()))
-        return sorted_pow_count
+        return sorted_pos_count
+
+    def write_to_file(self, taxonomy_filename, sorted_pos_count):
+        with open(taxonomy_filename, "w") as f:
+            for pos, word_count in sorted_pos_count.iteritems():
+                f.write(pos)
+                for word, count in word_count[0:100]:
+                    f.write("\t" + word)
+                f.write("\n")
+                for word, count in word_count[0:100]:
+                    f.write("\t" + str(count))
+                f.write("\n")
 
 if __name__ == '__main__':
     taxonomy = Taxonomy()
     ads_words, words_count = taxonomy.read_files("configs/pos/sorted_words_ads_videos.csv")
     random_video_words, _ = taxonomy.read_files("configs/pos/sorted_words_random_videos.csv")
     key_words = taxonomy.complement_(ads_words, random_video_words, words_count)
-    print key_words
+    taxonomy.write_to_file("configs/pos/taxonomy.csv", key_words)
