@@ -2,10 +2,12 @@ import csv
 from collections import defaultdict
 
 import operator
+import enchant
 
 
 class Taxonomy:
     def __init__(self):
+        self.d = enchant.Dict("en_US")
         pass
 
     def read_files(self, filename):
@@ -16,7 +18,7 @@ class Taxonomy:
             for line in lines:
                 pos = line[0]
                 del line[0]
-                words = line[::2]
+                words = [s.lower() for s in line[::2] if s.isalpha() and self.d.check(s)]
                 counts = line[1::2]
                 for l in range(len(words)):
                     words_count[words[l]] = counts[l]
