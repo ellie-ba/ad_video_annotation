@@ -1,4 +1,5 @@
 # Advertisement Video Annotation
+Make the list of frequent words in advertisement videos using video transcripts 
 
 Running:
 ========
